@@ -1,5 +1,6 @@
 import akka.actor.{Actor, PoisonPill, Props}
 
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.duration._
 /**
   * Created by Brian on 12/5/16.
@@ -24,5 +25,5 @@ class Dispatcher extends Actor {
   }
 }
 
-case class PostBundle(time: Long, tag: Int, posts: Array[String])
+case class PostBundle(time: Long, tag: Int, posts: ListBuffer[String])
 case class SentimentBundle(time: Long, tag: Int, sentiment: SENTIMENT_TYPE)

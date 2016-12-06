@@ -34,7 +34,7 @@ class SQLActor extends Actor {
         }
       }
       for(tag <- scan.keys) {
-        sender ! PostBundle(System.currentTimeMillis(), tag, scan(tag).toArray)
+        sender ! PostBundle(System.currentTimeMillis(), tag, scan(tag))
       }
     }
   }
