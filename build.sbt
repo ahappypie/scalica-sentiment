@@ -1,10 +1,11 @@
+
 name := "sentiment"
 
 version := "1.0"
 
 scalaVersion := "2.11.8"
 
-logLevel := Level.Debug
+logLevel := Level.Info
 
 lazy val akkaVersion = "2.4.14"
 

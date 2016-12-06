@@ -9,7 +9,7 @@ object Sentiment {
     implicit val system = ActorSystem()
     implicit val executionContext = system.dispatcher
 
-    system.actorOf(Props[Dispatcher]) ! System.nanoTime()
+    system.actorOf(Props[Dispatcher]) ! 5.minutes
   }
 
 }

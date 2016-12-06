@@ -1,4 +1,4 @@
-import java.sql.Date
+import java.sql.Timestamp
 
 import akka.actor.{Actor, ActorRef, Props}
 import slick.driver.MySQLDriver.api._
@@ -22,7 +22,7 @@ class SQLActor extends Actor {
 
   def scanDB(time : Long, sender: ActorRef): Unit = {
     val scan: Map[Int, ListBuffer[String]] = Map()
-    val query = scanQuery(new Date(time).toString)
+    val query = scanQuery(new Timestamp(time).toString)
     db.run(query).onSuccess {
       case s => for(result <- s) {
         val posts: Option[ListBuffer[String]] = scan.get(result.tag)
@@ -34,8 +34,7 @@ class SQLActor extends Actor {
         }
       }
       for(tag <- scan.keys) {
-        println("Sending time: " + time + " tag: " + tag + " posts: " + scan(tag))
-        sender ! PostBundle(time, tag, scan(tag).toArray)
+        sender ! PostBundle(System.currentTimeMillis(), tag, scan(tag).toArray)
       }
     }
   }
@@ -46,15 +45,12 @@ class SQLActor extends Actor {
       FROM micro_posttag AS pt
       INNER JOIN micro_post AS p ON p.id = pt.post_id
       INNER JOIN micro_hashtag AS t ON t.id = pt.hashtag_id
-      WHERE p.pub_date > "2016-12-04"""".as[ScanResult]
+      WHERE p.pub_date > ${filterTime}""".as[ScanResult]
 
   val sentiment = TableQuery[SentimentTable]
 
   def write(s: SentimentBundle): Unit = {
-    println("write to db tag: " + s.tag + " sentiment: " + s.sentiment + " at time: " + s.time)
-    db.run(sentiment += Micro_Sentiment(None, s.sentiment.toString, new Date(s.time), s.tag)).onSuccess {
-      case _ => println("done writing")
-    }
+    db.run(sentiment += Micro_Sentiment(None, s.sentiment.toString, new Timestamp(s.time), s.tag))
   }
 }
 

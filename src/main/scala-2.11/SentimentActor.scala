@@ -55,8 +55,8 @@ class SentimentActor extends Actor {
       sentiments += sentiment.toDouble
       sizes += partText.length
 
-      println("debug: " + sentiment)
-      println("size: " + partText.length)
+      //println("debug: " + sentiment)
+      //println("size: " + partText.length)
 
     }
 
@@ -74,9 +74,9 @@ class SentimentActor extends Actor {
     }
 
 
-    println("debug: main: " + mainSentiment)
-    println("debug: avg: " + averageSentiment)
-    println("debug: weighted: " + weightedSentiment)
+    //println("debug: main: " + mainSentiment)
+    //println("debug: avg: " + averageSentiment)
+    //println("debug: weighted: " + weightedSentiment)
 
     weightedSentiment match {
       case s if s <= 0.0 => NOT_UNDERSTOOD
