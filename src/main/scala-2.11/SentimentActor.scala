@@ -22,13 +22,13 @@ class SentimentActor extends Actor {
     case PostBundle(time, tag, posts) => score(time, tag, posts)
   }
 
-  def score(time: Long, tag: String, posts: Array[String]): Unit = {
+  def score(time: Long, tag: Int, posts: Array[String]): Unit = {
     var postString: String = new String()
     for(post <- posts) {
       postString += post
     }
     val sentiment: SENTIMENT_TYPE = detectSentiment(postString)
-    context.system.actorOf(Props[WriteActor]) ! SentimentBundle(time, tag, sentiment)
+    sender ! SentimentBundle(time, tag, sentiment)
   }
 
   def detectSentiment(message: String): SENTIMENT_TYPE = {

@@ -9,12 +9,7 @@ object Sentiment {
     implicit val system = ActorSystem()
     implicit val executionContext = system.dispatcher
 
-    val scheduler = system.scheduler.schedule(0 seconds, 5 minutes) {
-      system.actorOf(Props[ScanActor]) ! System.nanoTime()
-    }
+    system.actorOf(Props[Dispatcher]) ! System.nanoTime()
   }
 
 }
-
-case class PostBundle(time: Long, tag: String, posts: Array[String])
-case class SentimentBundle(time: Long, tag: String, sentiment: SENTIMENT_TYPE)
