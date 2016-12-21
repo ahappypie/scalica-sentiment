@@ -7,10 +7,10 @@ import slick.driver.MySQLDriver.api._
   */
 case class Micro_Sentiment(id:Option[Int], sentiment:String, date:Timestamp, tag:Int)
 
-class SentimentTable(tag: Tag) extends Table[Micro_Sentiment](tag, "MICRO_SENTIMENT") {
+class SentimentTable(tag: Tag) extends Table[Micro_Sentiment](tag, "micro_sentiment") {
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
-  def sentiment_analysis = column[String]("SENTIMENT_ANALYSIS")
-  def sentiment_date = column[Timestamp]("SENTIMENT_DATE")
-  def hashtag_id = column[Int]("HASHTAG_ID")
+  def sentiment_analysis = column[String]("sentiment_analysis")
+  def sentiment_date = column[Timestamp]("sentiment_date")
+  def hashtag_id = column[Int]("hashtag_id")
   def * = (id.?, sentiment_analysis, sentiment_date, hashtag_id) <> (Micro_Sentiment.tupled, Micro_Sentiment.unapply)
 }
