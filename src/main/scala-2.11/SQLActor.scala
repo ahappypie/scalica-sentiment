@@ -24,7 +24,8 @@ class SQLActor extends Actor {
     val scan: Map[Int, ListBuffer[String]] = Map()
     val query = scanQuery(new Timestamp(time).toString)
     db.run(query).onSuccess {
-      case s => for(result <- s) {
+      case s => println(s.size)
+        for(result <- s) {
         val posts: Option[ListBuffer[String]] = scan.get(result.tag)
         if(posts.isDefined) {
           posts.get += result.text
@@ -50,6 +51,7 @@ class SQLActor extends Actor {
   val sentiment = TableQuery[SentimentTable]
 
   def write(s: SentimentBundle): Unit = {
+    println("writing to db")
     db.run(sentiment += Micro_Sentiment(None, s.sentiment.toString, new Timestamp(s.time), s.tag))
   }
 }
