@@ -52,7 +52,9 @@ class SQLActor extends Actor {
 
   def write(s: SentimentBundle): Unit = {
     println("writing to db")
-    db.run(sentiment += Micro_Sentiment(None, s.sentiment.toString, new Timestamp(s.time), s.tag))
+    db.run(sentiment += Micro_Sentiment(None, s.sentiment.toString, new Timestamp(s.time), s.tag)).onSuccess {
+      case _ => println("finished writing")
+    }
   }
 }
 
